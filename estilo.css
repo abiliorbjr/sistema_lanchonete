@@ -1,0 +1,37 @@
+body{
+	background-color: #865432;
+}
+
+#mesas{
+	
+	background-color: green;
+	margin-left: 100px;
+	margin-top: 50px;
+	width: 100px;
+	height: 100px;
+	border-radius: 15px ;
+	float: left;
+	line-height:95px;
+	text-align: center;
+	font-size:35px
+	
+
+
+}
+
+.container{
+	text-align: center;
+}
+
+/*  esses dois comandos abaixo para quando eu passar o mouse mudar de cor
+
+#mesas{
+	-webkit-filter:grayscale(100%);
+}
+
+#mesas:hover{
+	-webkit-filter:grayscale(0%);
+    transition: 1s;
+}
+
+*/
