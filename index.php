@@ -59,6 +59,7 @@
 
 						
 					<a href='mesas.php'><div id="mesas"><?php echo $qtd_mesas ++;?></div></a>
+					    <?php $id_mesa = $qtd_mesas;  ?> 
 
 					</div>						
 		<?php  			

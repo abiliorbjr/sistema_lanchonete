@@ -81,7 +81,7 @@
 							 	 	echo "Email ou Senha estão errados! ";
 							 	 	$_SESSION['tentavivas_login'] ++ ;
 
-							 	 	echo $_SESSION['tentavivas_login']."- Tentativas. Na terceira será bloqueado o sistema! ";
+							 	 	echo $_SESSION['tentavivas_login']." - Tentativas. Na terceira será bloqueado o sistema! ";
 
 
 							 	 }

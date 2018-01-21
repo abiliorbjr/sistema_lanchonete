@@ -46,6 +46,7 @@
 
 ?>
 
+
 <form method="POST">
 	Número da mesa:
 	<input type="text" name="numero_mesa"><br><br>
@@ -58,6 +59,8 @@
 		<option value="cartao">Cartão crédito</option>
 		<option value="cartao">Ticket</option>
 	</select><br><br>
+
+
 	
 
 	recebido:
