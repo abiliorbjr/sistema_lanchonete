@@ -26,31 +26,72 @@
  			if (isset($_SESSION['tentavivas_login']) && $_SESSION['tentavivas_login'] >=3) {
  					echo "Acesso bloqueado por 5 minutos";
 
- 					/*  TERMINAR O RACIOCINIO
- 					if (isset($_SESSION['tentavivas_login']) && $_SESSION['tentavivas_login'] >=3) {
+ 						
+ 						
+ 							
+ 						if(isset($_POST['email']) && empty($_POST['email']) == false) {
 
- 						$sql= "SELECT * FROM usuarios_bloqueados_login WHERE id_usuario = :id_usuario";
+ 							$email = strtolower(addslashes($_POST['email'])); 
+ 						
 
- 							if ($sql->rowCount() >0) {
+ 							$sql= "SELECT * FROM usuarios WHERE email = :email";
+						 	$sql = $pdo->prepare($sql);
+						 	$sql->bindValue(":email",$email);
+						 	$sql->execute();
 
- 								$sql = $sql->fetch();
- 								$id_usuario = $sql['id'];
+						 	
+
+							 	 if ($sql->rowCount() > 0) {
+							 	 	//echo "existe";
+							 	 	$sql = $sql->fetch();
+							 	 	$id = $sql['id'];
 
 
- 								$sql="INSERT INTO usuarios_bloqueados_login (id_usuario,data_bloqueio) VALUES (:id_usuario,:data_bloqueio)";
 
- 					$sql= $pdo->prepare($sql);
- 					$sql->bindValue(":id_usuario",$id_usuario);
- 					$sql->bindValue(":data_bloqueio",date('Y-m-d H:i',strtotime('-2 hours -55 minutes')));
- 					$sql->execute();
+							 	 	$sql = "INSERT INTO usuarios_bloqueados ( id_usuario,hora_bloqueio) VALUES (:id_usuario,:hora_bloqueio) ";
+
+									$sql = $pdo->prepare($sql);
+									$sql->bindValue(":id_usuario",$id);
+									$sql->bindValue(":hora_bloqueio",date('Y-m-d H:i', strtotime('-3 hour + 2 minutes')));
+									$sql->execute();
+ 								}
 
 
- 							}else{
- 								echo "Não existe usuario";
- 							}
 
- 							*/
+ 								if (isset($_POST['email']) && !empty($_POST['email'])) {
+ 										$email = strtolower(addslashes($_POST['email']));
+
+ 										if ($sql->rowCount()>0) {
+ 											//para ver se tem alguma coisa nessas condiçoes
+ 											$sql = $sql->fetch();
+ 											$id = $sql['id'];
+
+
+ 											$sql = "SELECT * FROM usuarios_bloqueados WHERE id_usuario = 1 AND hora_bloqueio >= NOW() order by hora_bloqueio desc limit 1;";
+
+ 										$sql = $pdo->prepare($sql);
+ 										//$sql->bindValue(":email",$email);
+ 										$sql->bindValue(":id",$id);
+ 										$sql->execute();
+
+ 										if ($sql->rowCount() > 0 ) {
+ 											
+ 											echo "continua bloqueado";
+ 										}else{
+
+ 											header("Location:index.php");
+ 										}
+
+ 										}
+
+ 										
+ 								}
+
+
+ 								
+ 						}	
  					
+
  					
 
  					

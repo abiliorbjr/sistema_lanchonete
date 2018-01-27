@@ -47,7 +47,7 @@
 			$sql->bindValue("expirado_em",date('Y-m-d H:i',strtotime('-2 hours -55 minutes')));
 			$sql->execute();
 
-			$link = "http://localhost/bonieky/revisoes/login01/redefinirsenha.php?token=".$token;
+			$link = "http://localhost/sistemaLanchonete/sistema_lanchoneteV01/redefinirsenha.php?token=".$token;
 			
 
 			//quando for para o email de verdade

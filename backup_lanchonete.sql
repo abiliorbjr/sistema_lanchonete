@@ -101,13 +101,56 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `senha` varchar(32) DEFAULT NULL,
   `permissoes` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela lanchonete.usuarios: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela lanchonete.usuarios: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`id`, `email`, `senha`, `permissoes`) VALUES
-	(1, 'abiliorbjr@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADM');
+	(1, 'abiliorbjr@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADM'),
+	(7, 'gabiribas746@gmail.com', '202cb962ac59075b964b07152d234b70', 'ADM');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+
+-- Copiando estrutura para tabela lanchonete.usuarios_bloqueados
+CREATE TABLE IF NOT EXISTS `usuarios_bloqueados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) DEFAULT NULL,
+  `hora_bloqueio` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+-- Copiando dados para a tabela lanchonete.usuarios_bloqueados: ~11 rows (aproximadamente)
+/*!40000 ALTER TABLE `usuarios_bloqueados` DISABLE KEYS */;
+INSERT INTO `usuarios_bloqueados` (`id`, `id_usuario`, `hora_bloqueio`) VALUES
+	(1, NULL, '2018-01-27 13:47:00'),
+	(2, NULL, '2018-01-27 13:48:00'),
+	(3, 0, '2018-01-27 14:16:00'),
+	(4, NULL, '2018-01-27 14:44:00'),
+	(5, 1, '2018-01-27 14:47:00'),
+	(6, 1, '2018-01-27 14:48:00'),
+	(7, 1, '2018-01-27 14:48:00'),
+	(8, 1, '2018-01-27 15:34:00'),
+	(9, 1, '2018-01-27 15:38:00'),
+	(10, 7, '2018-01-27 15:53:00'),
+	(11, 7, '2018-01-27 15:53:00');
+/*!40000 ALTER TABLE `usuarios_bloqueados` ENABLE KEYS */;
+
+-- Copiando estrutura para tabela lanchonete.usuarios_token
+CREATE TABLE IF NOT EXISTS `usuarios_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) DEFAULT NULL,
+  `hash` varchar(32) DEFAULT NULL,
+  `used` tinyint(1) DEFAULT '0',
+  `expirado_em` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Copiando dados para a tabela lanchonete.usuarios_token: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `usuarios_token` DISABLE KEYS */;
+INSERT INTO `usuarios_token` (`id`, `id_usuario`, `hash`, `used`, `expirado_em`) VALUES
+	(1, 1, 'c75067b80d088cdc4ba26ba038c56da1', 1, '2018-01-27 07:43:00'),
+	(2, 1, 'f9a43405e8a6d360b0144cb79f3c5988', 1, '2018-01-27 07:48:00'),
+	(3, 1, '599f5d2d6923873421fb2d63934d6d1b', 1, '2018-01-27 07:52:00');
+/*!40000 ALTER TABLE `usuarios_token` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
