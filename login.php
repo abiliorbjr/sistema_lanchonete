@@ -77,9 +77,6 @@
  											unset($_SESSION['tentativas_login']);
 
  											echo " nao teve resultado ";
-
- 											
-
  										}
 
  								}
@@ -90,6 +87,7 @@
  					
 
  			}else{
+
 			     if (!isset($_SESSION['tentativas_login'])) {	
 			      			$_SESSION['tentativas_login'] = 0;
 			      } 
@@ -120,11 +118,7 @@
 
 							 	 }
 
-
-
-
 						 }
-
 
 			}
 
