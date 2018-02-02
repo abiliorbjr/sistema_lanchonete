@@ -23,8 +23,8 @@
 
  echo "<h2>PÁGINA DE LOGIN</h2>"."<br>"."<br>";
 
- 			if (isset($_SESSION['tentavivas_login']) && $_SESSION['tentavivas_login'] >=3) {
- 					echo "Acesso bloqueado por 5 minutos";
+ 			if (isset($_SESSION['tentativas_login']) && $_SESSION['tentativas_login'] >=3) {
+ 					echo " Acesso bloqueado por 5 minutos "."<br>";
 
  						
  						
@@ -42,63 +42,56 @@
 						 	
 
 							 	 if ($sql->rowCount() > 0) {
-							 	 	//echo "existe";
+							 	 	echo "email errado colocado no banco de dados";
 							 	 	$sql = $sql->fetch();
 							 	 	$id = $sql['id'];
 
 
 
-							 	 	$sql = "INSERT INTO usuarios_bloqueados ( id_usuario,hora_bloqueio) VALUES (:id_usuario,:hora_bloqueio) ";
+							 	 	$sql = "INSERT INTO usuarios_bloqueados ( id_usuario,hora_bloqueio) VALUES (:id_usuario,:hora_bloqueio)";
 
 									$sql = $pdo->prepare($sql);
 									$sql->bindValue(":id_usuario",$id);
 									$sql->bindValue(":hora_bloqueio",date('Y-m-d H:i', strtotime('-3 hour + 2 minutes')));
 									$sql->execute();
- 								}
 
 
 
- 								if (isset($_POST['email']) && !empty($_POST['email'])) {
- 										$email = strtolower(addslashes($_POST['email']));
-
- 										if ($sql->rowCount()>0) {
- 											//para ver se tem alguma coisa nessas condiçoes
- 											$sql = $sql->fetch();
- 											$id = $sql['id'];
+									$sql = "SELECT * FROM usuarios_bloqueados WHERE id_usuario = '$id' AND hora_bloqueio >= NOW() order by hora_bloqueio desc limit 1";
 
 
- 											$sql = "SELECT * FROM usuarios_bloqueados WHERE id_usuario = 1 AND hora_bloqueio >= NOW() order by hora_bloqueio desc limit 1;";
+ 									$sql = $pdo->prepare($sql);
+ 									$sql->bindValue(":email",$email);
+ 									$sql->execute();
 
- 										$sql = $pdo->prepare($sql);
- 										//$sql->bindValue(":email",$email);
- 										$sql->bindValue(":id",$id);
- 										$sql->execute();
-
- 										if ($sql->rowCount() > 0 ) {
- 											
- 											echo "continua bloqueado";
- 										}else{
-
- 											header("Location:index.php");
- 										}
-
- 										}
 
  										
+										
+ 										if ($sql->rowCount() > 0 ) {
+ 											
+ 											
+ 											var_dump($sql);
+ 											
+ 										}else{
+
+ 											unset($_SESSION['tentativas_login']);
+
+ 											echo " nao teve resultado ";
+
+ 											
+
+ 										}
+
  								}
 
+ 							}
 
  								
- 						}	
- 					
-
- 					
-
  					
 
  			}else{
-			     if (!isset($_SESSION['tentavivas_login'])) {	
-			      			$_SESSION['tentavivas_login'] = 0;
+			     if (!isset($_SESSION['tentativas_login'])) {	
+			      			$_SESSION['tentativas_login'] = 0;
 			      } 
 
 						 if (isset($_POST['email']) && empty($_POST['email']) == false) {
@@ -120,9 +113,9 @@
 
 
 							 	 	echo "Email ou Senha estão errados! ";
-							 	 	$_SESSION['tentavivas_login'] ++ ;
+							 	 	$_SESSION['tentativas_login'] ++ ;
 
-							 	 	echo $_SESSION['tentavivas_login']." - Tentativas. Na terceira será bloqueado o sistema! ";
+							 	 	echo $_SESSION['tentativas_login']." - Tentativas. Na terceira será bloqueado o sistema! ";
 
 
 							 	 }
