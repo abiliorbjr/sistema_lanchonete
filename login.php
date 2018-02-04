@@ -26,13 +26,19 @@
  			if (isset($_SESSION['tentativas_login']) && $_SESSION['tentativas_login'] >=3) {
  					echo " Acesso bloqueado por 5 minutos "."<br>";
 
+ 					/* DELETAR USUARIOS COM MAIS DE CINCO MINUTO PARA NÃO LOTAR O BANCO*/
+
+ 					$sql = $pdo->prepare("DELETE FROM usuarios_bloqueados WHERE hora_bloqueio > :hora_deletar");
+					$sql->bindValue(":hora_deletar", date('Y-m-d H:i', strtotime('-3 hour + 6 minutes')));
+					$sql->execute();
  						
+
  						
  							
  						if(isset($_POST['email']) && empty($_POST['email']) == false) {
 
  							$email = strtolower(addslashes($_POST['email'])); 
- 						
+
 
  							$sql= "SELECT * FROM usuarios WHERE email = :email";
 						 	$sql = $pdo->prepare($sql);
@@ -48,13 +54,14 @@
 
 
 
-							 	 	$sql = "INSERT INTO usuarios_bloqueados ( id_usuario,hora_bloqueio) VALUES (:id_usuario,:hora_bloqueio)";
+							 	 	$sql = "INSERT INTO usuarios_bloqueados (id_usuario, hora_bloqueio) VALUES (:id_usuario,:hora_bloqueio)";
 
 									$sql = $pdo->prepare($sql);
 									$sql->bindValue(":id_usuario",$id);
 									$sql->bindValue(":hora_bloqueio",date('Y-m-d H:i', strtotime('-3 hour + 2 minutes')));
 									$sql->execute();
 
+								}
 
 
 									$sql = "SELECT * FROM usuarios_bloqueados WHERE id_usuario = '$id' AND hora_bloqueio >= NOW() order by hora_bloqueio desc limit 1";
@@ -62,13 +69,13 @@
 
  									$sql = $pdo->prepare($sql);
  									$sql->bindValue(":email",$email);
+ 									$sql->bindValue(":id_usuario",$id);
  									$sql->execute();
 
 
  										
 										
  										if ($sql->rowCount() > 0 ) {
- 											
  											
  											var_dump($sql);
  											
@@ -81,10 +88,8 @@
 
  								}
 
- 							}
 
  								
- 					
 
  			}else{
 
